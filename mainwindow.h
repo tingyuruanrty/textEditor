@@ -7,6 +7,9 @@
 #include <QStandardPaths>
 #include <QFile>
 #include <QByteArray>
+#include <QKeyEvent>
+#include <QMouseEvent>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,12 +24,13 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void keyPressEvent(QKeyEvent* k);
+    void mousePressEvent(QMouseEvent* m);
 
 private slots:
     void newTriggered();
     void openTriggered();
     void saveAsTriggered();
-
 private:
     Ui::MainWindow *ui;
 };

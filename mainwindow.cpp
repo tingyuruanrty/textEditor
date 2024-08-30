@@ -22,29 +22,50 @@ void MainWindow::newTriggered(){
 }
 
 void MainWindow::openTriggered(){
+    //open dialog show up
     QString fileName=QFileDialog::getOpenFileName(this,"Open File",QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),"*.txt");
+
     if(fileName.isEmpty()){
+        //MessageBox Dialog
         QMessageBox::warning(this,"waring","please select a file");
     }else{
+        //after chosen the file
         QFile file(fileName);
         file.open(QIODevice::ReadOnly);
         QByteArray ba = file.readAll();
+        file.close();
+
         QString a(ba);
         ui->textEdit->setText(a);
-        file.close();
     }
 }
 
 void MainWindow::saveAsTriggered(){
-    QString fileName = QFileDialog::getSaveFileName(this,"Open File",QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),"*.txt");
+    //save dialog show up
+    QString fileName = QFileDialog::getSaveFileName(this,"Save File as",QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),"*.txt");
+
     if(fileName.isEmpty()){
         QMessageBox::warning(this,"waring","please enter a name");
     }else{
-        QFile file(fileName);
-        file.open(QIODevice::WriteOnly);
         QByteArray ba;
         ba.append(ui->textEdit->toPlainText().toUtf8());
+
+        QFile file(fileName);
+        file.open(QIODevice::WriteOnly);
         file.write(ba);
         file.close();
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* k){
+    if(k->modifiers()==Qt::ControlModifier && k->key()==Qt::Key_S){
+        saveAsTriggered();
+    }
+}
+
+void MainWindow::mousePressEvent(QMouseEvent* m){
+    QPoint p=m->pos();
+    if(m->button()==Qt::LeftButton || m->button()==Qt::RightButton){
+        qDebug()<< p;
     }
 }
