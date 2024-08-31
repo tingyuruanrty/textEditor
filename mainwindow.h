@@ -31,7 +31,10 @@ private slots:
     void newTriggered();
     void openTriggered();
     void saveAsTriggered();
+    void saveTriggered();
 private:
     Ui::MainWindow *ui;
+    QString filePath;
+    QString fileName;
 };
 #endif // MAINWINDOW_H
